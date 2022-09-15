@@ -64,9 +64,8 @@ export default function QuemSomos() {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-      <div className="footer-quemsomos">
-        <Footer />
-      </div>
+      <div className="footer-quemsomos"></div>
+      <Footer />
     </div>
   );
 }

@@ -1,78 +1,52 @@
-import React from "react";
-import { Container } from "react-bootstrap";
-import insti_img from "../../assets/img/instituicao.png";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { Container, NavLink, Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import insti_img from "../../assets/img/instituicoes.png";
 import principal_img from "../../assets/styles/Instituicao.css";
 import Footer from "./components/Footer";
-import Table from "react-bootstrap/Table";
-import { FaInstagram } from "react-icons/fa";
 
 export default function Instituicoes() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/static/ongs.json")
+      .then((response) => response.json())
+      .then(setData);
+  }, []);
+
   return (
     <div>
       <Container className="mt-3">
-        <img src={insti_img} className="img_principal" />
-        <h1 className="titulo">
-          Conheca mais sobre as instituicoes parceiras.{" "}
-        </h1>
-        <Table striped bordered hover size="sm" className="tabela-inst">
+        <img src={insti_img} className="principal_img" />
+        <Table>
           <thead>
             <tr>
-              <th>Nome da instituicao</th>
-              <th>Cidade</th>
-              <th>Instagram</th>
+              <th>#</th>
+              <th>Foto</th>
+              <th>Nome</th>
+              <th>Descrição</th>
               <th>Site</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Apae</td>
-              <td>Bauru - SP</td>
-              <td>
-                <a href="https://www.instagram.com/apaebauru/" target="_blank">
-                  <FaInstagram /> @apaebauru
-                </a>
-              </td>
-              <td>
-                <a href="https://www.apaebauru.org.br/" target="_blanck">
-                  Acessar
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>Sorri </td>
-              <td>Bauru - SP</td>
-              <td>
-                <a href="https://www.instagram.com/sorribauru/" target="_black">
-                  <FaInstagram /> @sorribauru
-                </a>
-              </td>
-              <td>
-                <a href="https://sorribauru.com.br/" target="_blanck">
-                  Acessar
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>Vila Vicentina </td>
-              <td>Bauru - SP</td>
-              <td>
-                <a
-                  href="https://www.instagram.com/vilavicentinabauru/"
-                  targer="_blank"
-                >
-                  <FaInstagram /> @vilavicentinabauru
-                </a>
-              </td>
-              <td>
-                <a href="https://vilavicentinabauru.com.br/" target="_blanck">
-                  Acessar
-                </a>
-              </td>
-            </tr>
+            {data.map((item, id) => (
+              <tr key={id}>
+                <td>{item.id}</td>
+                <td>
+                  <img src={item.image} width={100} />
+                </td>
+                <td>{item.name}</td>
+                <td>{item.desc}</td>
+                <td>
+                  <NavLink link={data.site}>Site</NavLink>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
+        <Footer />
       </Container>
-      <Footer />
     </div>
   );
 }
